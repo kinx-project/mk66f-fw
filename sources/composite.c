@@ -379,7 +379,7 @@ void main(void)
 #endif
 {
     BOARD_InitPins();
-    BOARD_BootClockRUN();
+    BOARD_BootClockHSRUN();
     BOARD_InitDebugConsole();
 
     USB_DeviceApplicationInit();
