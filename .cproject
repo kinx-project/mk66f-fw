@@ -71,7 +71,7 @@
 									<listOptionValue builtIn="false" value="_DEBUG=1"/>
 									<listOptionValue builtIn="false" value="CR_INTEGER_PRINTF"/>
 									<listOptionValue builtIn="false" value="USB_STACK_BM"/>
-									<listOptionValue builtIn="false" value="SDK_DEBUGCONSOLE=0"/>
+									<listOptionValue builtIn="false" value="SDK_DEBUGCONSOLE=1"/>
 									<listOptionValue builtIn="false" value="__MCUXPRESSO"/>
 									<listOptionValue builtIn="false" value="__USE_CMSIS"/>
 									<listOptionValue builtIn="false" value="DEBUG"/>
