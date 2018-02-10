@@ -619,16 +619,19 @@ usb_status_t USB_DeviceHidSend(class_handle_t handle, uint8_t ep, uint8_t *buffe
         return kStatus_USB_InvalidHandle;
     }
     hidHandle = (usb_device_hid_struct_t *)handle;
-
+#if 0
     if (hidHandle->interruptInPipeBusy)
     {
         return kStatus_USB_Busy;
     }
+#endif
     error = USB_DeviceSendRequest(hidHandle->handle, ep, buffer, length);
+#if 0
     if (kStatus_USB_Success == error)
     {
         hidHandle->interruptInPipeBusy = 1U;
     }
+#endif
     return error;
 }
 
