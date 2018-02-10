@@ -70,6 +70,7 @@ static usb_device_hid_keyboard_struct_t s_UsbDeviceHidKeyboard;
 
 static usb_status_t USB_DeviceHidKeyboardAction(void)
 {
+    return kStatus_USB_Success;
     static int x = 0U;
     enum
     {

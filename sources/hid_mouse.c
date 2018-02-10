@@ -71,6 +71,7 @@ static usb_device_hid_mouse_struct_t s_UsbDeviceHidMouse;
 /* Update mouse pointer location. Draw a rectangular rotation*/
 static usb_status_t USB_DeviceHidMouseAction(void)
 {
+    return kStatus_USB_Success;
     static int8_t x = 0U;
     static int8_t y = 0U;
     enum
