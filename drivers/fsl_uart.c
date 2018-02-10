@@ -265,8 +265,9 @@ status_t UART_Init(UART_Type *base, const uart_config_t *config, uint32_t srcClo
     base->C2 &= ~(UART_C2_TE_MASK | UART_C2_RE_MASK);
 
     /* Write the sbr value to the BDH and BDL registers*/
-    base->BDH = (base->BDH & ~UART_BDH_SBR_MASK) | (uint8_t)(sbr >> 8);
-    base->BDL = (uint8_t)sbr;
+    uint32_t divisor = (((SystemCoreClock * 2) + (config->baudRate_Bps >> 1)) / config->baudRate_Bps);
+    base->BDH = (divisor >> 13) & 0x1F;
+    base->BDL = (divisor >> 5) & 0xFF;
 
 #if defined(FSL_FEATURE_UART_HAS_BAUD_RATE_FINE_ADJUST_SUPPORT) && FSL_FEATURE_UART_HAS_BAUD_RATE_FINE_ADJUST_SUPPORT
     /* Write the brfa value to the register*/
