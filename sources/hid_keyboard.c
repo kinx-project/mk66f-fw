@@ -105,6 +105,9 @@ static usb_status_t USB_DeviceHidKeyboardAction(void)
                              s_UsbDeviceHidKeyboard.buffer, USB_HID_KEYBOARD_REPORT_LENGTH);
 }
 
+static usb_device_hid_report_struct_t* g_output_report;
+static uint8_t s_UsbDeviceHidReportBuffer[HS_HID_KEYBOARD_INTERRUPT_IN_PACKET_SIZE];
+
 usb_status_t USB_DeviceHidKeyboardCallback(class_handle_t handle, uint32_t event, void *param)
 {
     usb_status_t error = kStatus_USB_Error;
@@ -118,10 +121,33 @@ usb_status_t USB_DeviceHidKeyboardCallback(class_handle_t handle, uint32_t event
             }
             break;
         case kUSB_DeviceHidEventGetReport:
-        case kUSB_DeviceHidEventSetReport:
-        case kUSB_DeviceHidEventRequestReportBuffer:
             error = kStatus_USB_InvalidRequest;
             break;
+        case kUSB_DeviceHidEventRequestReportBuffer:
+        	if (s_UsbDeviceComposite->attach)
+        	{
+        		g_output_report = (usb_device_hid_report_struct_t *)param;
+        		if (g_output_report->reportLength <= sizeof(s_UsbDeviceHidReportBuffer))
+        		{
+        			g_output_report->reportBuffer = &s_UsbDeviceHidReportBuffer[0];
+        			error = kStatus_USB_Success;
+        		}
+        		else
+        		{
+        			error = kStatus_USB_InvalidRequest;
+        		}
+        	}
+        	break;
+        case kUSB_DeviceHidEventSetReport:
+        	if (s_UsbDeviceComposite->attach)
+        	{
+        		g_output_report = (usb_device_hid_report_struct_t *)param;
+        		if (g_output_report->reportId == 0 && g_output_report->reportLength == 1)
+        		{
+        		}
+        		error = kStatus_USB_Success;
+        	}
+        	break;
         case kUSB_DeviceHidEventGetIdle:
         case kUSB_DeviceHidEventGetProtocol:
         case kUSB_DeviceHidEventSetIdle:
