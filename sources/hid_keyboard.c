@@ -46,6 +46,8 @@
 
 #include "hid_keyboard.h"
 
+#include "kinx.h"
+
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
@@ -144,6 +146,7 @@ usb_status_t USB_DeviceHidKeyboardCallback(class_handle_t handle, uint32_t event
         		g_output_report = (usb_device_hid_report_struct_t *)param;
         		if (g_output_report->reportId == 0 && g_output_report->reportLength == 1)
         		{
+        			kinx_set_leds(g_output_report->reportBuffer[0]);
         		}
         		error = kStatus_USB_Success;
         	}

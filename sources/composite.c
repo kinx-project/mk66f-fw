@@ -64,6 +64,9 @@
 
 #include "pin_mux.h"
 #include "usb_phy.h"
+
+#include "kinx.h"
+
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
@@ -382,10 +385,19 @@ void main(void)
     BOARD_BootClockHSRUN();
     BOARD_InitDebugConsole();
 
+    kinx_init();
+
     USB_DeviceApplicationInit();
+
+    // Initialization done, turn off LEDs:
+    GPIO_PinWrite(BOARD_INITPINS_LED_CAPS_LOCK_GPIO, BOARD_INITPINS_LED_CAPS_LOCK_PIN, 1);
+    GPIO_PinWrite(BOARD_INITPINS_LED_NUM_LOCK_GPIO, BOARD_INITPINS_LED_NUM_LOCK_PIN, 1);
+    GPIO_PinWrite(BOARD_INITPINS_LED_SCROLL_LOCK_GPIO, BOARD_INITPINS_LED_SCROLL_LOCK_PIN, 1);
+    GPIO_PinWrite(BOARD_INITPINS_LED_NUMPAD_GPIO, BOARD_INITPINS_LED_NUMPAD_PIN, 1);
 
     while (1U)
     {
+    	kinx_scan();
 #if USB_DEVICE_CONFIG_USE_TASK
         USB_DeviceTaskFn(g_UsbDeviceComposite.deviceHandle);
 #endif
