@@ -179,11 +179,11 @@ static bool debounce_tick(const int row, const int col, const bool pressed) {
 		// state transition from pressed to not pressed
 		status->state = STATE_RELEASING_BOUNCING;
 		status->last_millis = millis();
-		return true;
+		return false;
 
 		case STATE_RELEASING_BOUNCING:
 		if ((millis() - status->last_millis) < 5) {
-			return true; // key bouncing, ignore
+			return false; // key bouncing, ignore
 		}
 		status->state = STATE_NOT_PRESSED;
 		return false;
