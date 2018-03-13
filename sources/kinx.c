@@ -151,7 +151,9 @@ typedef struct {
 
 static debounce_status_t debounce[15][7];
 
-static const uint32_t keyswitch_debounce_time = 5 /* ms */; // from the Cherry MX datasheet
+// The Cherry MX datasheet specifies 5ms, but that seems overly optimistic, at
+// least for key switches which have seen a few years of usage.
+static const uint32_t keyswitch_debounce_time = 10 /* ms */;
 
 static bool debounce_tick(const int row, const int col, const bool pressed) {
 	debounce_status_t *status = &(debounce[row][col]);
@@ -182,7 +184,7 @@ static bool debounce_tick(const int row, const int col, const bool pressed) {
 		return false;
 
 		case STATE_RELEASING_BOUNCING:
-		if ((millis() - status->last_millis) < 5) {
+		if ((millis() - status->last_millis) < keyswitch_debounce_time) {
 			return false; // key bouncing, ignore
 		}
 		status->state = STATE_NOT_PRESSED;
