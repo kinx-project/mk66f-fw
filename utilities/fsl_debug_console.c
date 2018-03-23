@@ -123,6 +123,15 @@ status_t DbgConsole_Flush(void)
 }
 
 #if SDK_DEBUGCONSOLE
+void *memset(void *s, int c, size_t n)
+{
+    unsigned char *p = s;
+    while (n--) {
+        *p++ = (unsigned char)c;
+    }
+    return s;
+}
+
 /* See fsl_debug_console.h for documentation of this function. */
 int DbgConsole_Printf(const char *fmt_s, ...)
 {

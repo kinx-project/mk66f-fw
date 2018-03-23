@@ -361,6 +361,15 @@ static int32_t ConvertFloatRadixNumToString(char *numstr, void *nump, int32_t ra
 }
 #endif /* PRINTF_FLOAT_ENABLE */
 
+size_t strlen(const char *str)
+{
+    const char *s;
+
+    for (s = str; *s; ++s)
+        ;
+    return (s - str);
+}
+
 int StrFormatPrintf(const char *fmt, va_list ap, char *buf, printfCb cb)
 {
     /* va_list ap; */
