@@ -232,7 +232,7 @@ void kinx_scan(void) {
 		// All 7 columns are connected to port D so that we can easily read all
 		// values into one byte. Our matrix is “active low”, so invert the reading
 		// to translate to a logical high (easier to work with in C).
-		const uint8_t colval = ~(GPIOD->PDIR & 0x7F /* 01111111b */);
+		const uint8_t colval = (~GPIOD->PDIR & 0x7F /* 01111111b */);
 
 		// Immediately set the row pin to high again to give it some time while we
 		// process the reading:
