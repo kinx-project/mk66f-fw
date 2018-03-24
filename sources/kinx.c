@@ -280,7 +280,14 @@ void kinx_scan(void) {
 				 break;
 
 			   default:
+			     // Ensure we do not write out-of-bounds. Detecting
+			     // more than 6 keys at a time can happen when there
+			     // are cold soldering joints or manufacturing
+			     // issues on the PCB, where all keys of a certain
+			     // column are read as pressed.
+			     if (keynum < 6) {
 				 report.keys[keynum++] = keyvalhid[row][col];
+			     }
 				 break;
 			}
 		}
