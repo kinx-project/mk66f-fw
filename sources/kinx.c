@@ -204,6 +204,10 @@ typedef struct __attribute__((packed)) {
 USB_DMA_NONINIT_DATA_ALIGN(USB_DATA_ALIGN_SIZE)
 static kbd_report_t last_report;
 
+#ifdef MEASURE_SCAN_LATENCY
+static uint32_t longest_scan_cycles = 0;
+#endif
+
 void kinx_scan(void) {
 	kbd_report_t report = {
 			.modifier = KEY_NONE,
@@ -211,7 +215,11 @@ void kinx_scan(void) {
 			.keys = {KEY_NONE, KEY_NONE, KEY_NONE, KEY_NONE, KEY_NONE, KEY_NONE},
 	};
 
+
+#ifdef MEASURE_SCAN_LATENCY
 	// Measure cycles for scan()
+	__asm volatile ("cpsid i"); // disable interrupts
+#endif
 	DWT->CYCCNT = 0;
 
 	int row, col, keynum = 0;
@@ -283,6 +291,17 @@ void kinx_scan(void) {
 		// column register, only to trigger ghost keys in the next scan.
 		delay_inline(40); // measured max: 29 cycles
 	}
+
+	#ifdef MEASURE_SCAN_LATENCY
+	const uint32_t scan_cycles = DWT->CYCCNT;
+        __asm volatile ("cpsie i"); // re-enable interrupts
+
+	if (scan_cycles > longest_scan_cycles) {
+	  longest_scan_cycles = scan_cycles;
+	  // longest scan: 20158 cycles = 111 μs
+	  DbgConsole_Printf("longest scan: %d cycles\r\n", longest_scan_cycles);
+	}
+	#endif
 
 	if (report.modifier == last_report.modifier &&
 			report.keys[0] == last_report.keys[0] &&
