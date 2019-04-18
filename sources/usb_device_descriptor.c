@@ -404,13 +404,13 @@ uint8_t g_UsbDeviceString2[] = {
     '2',           0x00U,
     '0',           0x00U,
     '1',           0x00U,
-    '8',           0x00U,
+    '9',           0x00U,
     '-',           0x00U,
     '0',           0x00U,
-    '3',           0x00U,
-    '-',           0x00U,
-    '2',           0x00U,
     '4',           0x00U,
+    '-',           0x00U,
+    '1',           0x00U,
+    '8',           0x00U,
 };
 
 USB_DMA_INIT_DATA_ALIGN(USB_DATA_ALIGN_SIZE)
