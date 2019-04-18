@@ -153,7 +153,7 @@ static debounce_status_t debounce[15][7];
 
 // The Cherry MX datasheet specifies 5ms, but that seems overly optimistic, at
 // least for key switches which have seen a few years of usage.
-static const uint32_t keyswitch_debounce_time = 10 /* ms */;
+static const uint32_t keyswitch_debounce_time = 20 /* ms */;
 
 static bool debounce_tick(const int row, const int col, const bool pressed) {
 	debounce_status_t *status = &(debounce[row][col]);
