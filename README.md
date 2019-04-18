@@ -21,8 +21,16 @@ apt install make gcc-arm-none-eabi
 ### Compilation
 
 ```
+mkdir Debug
 (cd Debug && make -f ../Makefile)
 ```
 
 Follow the Installation section above for how to install the resulting .hex
 file.
+
+### Compilation (with Docker)
+
+```
+mkdir Debug
+docker run -v $PWD:/usr/src/mk66f-fw kinxproject/mk66f-fw bash -c 'cd /usr/src/mk66f-fw/Debug && make -f ../Makefile'
+```
