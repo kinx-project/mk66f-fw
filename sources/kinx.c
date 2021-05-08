@@ -215,11 +215,6 @@ void kinx_scan(void) {
 			.keys = {KEY_NONE, KEY_NONE, KEY_NONE, KEY_NONE, KEY_NONE, KEY_NONE},
 	};
 
-
-#ifdef MEASURE_SCAN_LATENCY
-	// Measure cycles for scan()
-	__asm volatile ("cpsid i"); // disable interrupts
-#endif
 	DWT->CYCCNT = 0;
 
 	int row, col, keynum = 0;
@@ -301,7 +296,6 @@ void kinx_scan(void) {
 
 	#ifdef MEASURE_SCAN_LATENCY
 	const uint32_t scan_cycles = DWT->CYCCNT;
-        __asm volatile ("cpsie i"); // re-enable interrupts
 
 	if (scan_cycles > longest_scan_cycles) {
 	  longest_scan_cycles = scan_cycles;
